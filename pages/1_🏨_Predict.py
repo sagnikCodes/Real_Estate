@@ -22,7 +22,7 @@ custom_css = """
         }
         .stMarkdown h1 {
             text-align: center;
-            font-size: 36px;
+            font-size: 38px;
             color: #7743DB;  
             margin-bottom: 20px;
         }
@@ -134,6 +134,8 @@ with col4:
 
 if servant_room == 'Yes':
     separate_entry = st.selectbox('Do you want a separate entry for servant room', ['Yes', 'No'])
+else:
+    separate_entry = 0
 
 st.subheader("Do you want the following additional features:")
 col1, col2, col3 = st.columns(3)
@@ -187,24 +189,33 @@ def convert_rupees_to_words(rupees):
 
 
 if st.button('Predict Price'):
-    num_bedrooms = int(num_bedrooms)
-    num_bathrooms = int(num_bathrooms)
-    num_balconies = int(num_balconies)
-    floor_number = int(floor_number)
+    total_num_rooms = 0
+    show_result = True
+    try:
+        num_bedrooms = int(num_bedrooms)
+        num_bathrooms = int(num_bathrooms)
+        num_balconies = int(num_balconies)
+        floor_number = int(floor_number)
+        store_room = encode(store_room)
+        study_room = encode(study_room)
+        pooja_room = encode(pooja_room)
+        servant_room = encode(servant_room)
+
+        total_num_rooms = num_bedrooms + num_bathrooms + num_balconies + store_room + study_room + pooja_room + servant_room
+    except ValueError:
+        show_result = False
+        st.error('Please enter all the number of rooms properly.')
 
     furnished = encode(furnished)
-    ac = int(ac) if furnished == 1 else 0
-    geyser = int(geyser) if furnished == 1 else 0
-    fan = int(fan) if furnished == 1 else 0
-    light = int(light) if furnished == 1 else 0
-    wardrobe = int(wardrobe) if furnished == 1 else 0
-
-    store_room = encode(store_room)
-    study_room = encode(study_room)
-    pooja_room = encode(pooja_room)
-    servant_room = encode(servant_room)
-
-    total_num_rooms = num_bedrooms + num_bathrooms + num_balconies + store_room + study_room + pooja_room + servant_room
+    try:
+        ac = int(ac) if furnished == 1 else 0
+        geyser = int(geyser) if furnished == 1 else 0
+        fan = int(fan) if furnished == 1 else 0
+        light = int(light) if furnished == 1 else 0
+        wardrobe = int(wardrobe) if furnished == 1 else 0
+    except ValueError:
+        show_result = False
+        st.error('Please enter all furnishing details details properly.')
 
     separate_entry = 0 if servant_room == 0 else encode(separate_entry)
     spacious_interiors = encode(spacious_interiors)
@@ -217,41 +228,41 @@ if st.button('Predict Price'):
     low_density_society = encode(low_density_society)
     piped_gas = encode(piped_gas)
 
-    pipe = joblib.load('./flat_pipeline.joblib')
-    input_data = np.array([
-        sector,
-        num_bedrooms,
-        num_bathrooms,
-        num_balconies,
-        age_group,
-        super_built_up_area,
-        floor_number,
-        servant_room,
-        furnished,
-        centrally_air_conditioned,
-        false_ceiling,
-        intercom,
-        private_garden,
-        separate_entry,
-        spacious_interiors,
-        swimming_pool,
-        club_house,
-        piped_gas,
-        ac,
-        geyser,
-        fan,
-        wardrobe,
-        light,
-        low_density_society,
-        total_num_rooms
-    ])
-    input_data = pd.DataFrame(input_data.reshape(1, -1), columns=data.columns[:-1])
-    predicted_price = pipe.predict(input_data)[0]
+    if show_result:
+        pipe = joblib.load('./flat_pipeline.joblib')
+        input_data = np.array([
+            sector,
+            num_bedrooms,
+            num_bathrooms,
+            num_balconies,
+            age_group,
+            super_built_up_area,
+            floor_number,
+            servant_room,
+            furnished,
+            centrally_air_conditioned,
+            false_ceiling,
+            intercom,
+            private_garden,
+            separate_entry,
+            spacious_interiors,
+            swimming_pool,
+            club_house,
+            piped_gas,
+            ac,
+            geyser,
+            fan,
+            wardrobe,
+            light,
+            low_density_society,
+            total_num_rooms
+        ])
+        input_data = pd.DataFrame(input_data.reshape(1, -1), columns=data.columns[:-1])
+        predicted_price = pipe.predict(input_data)[0]
+        max_price = max(data['price'])
+        tolerance_ratio = predicted_price / max_price
 
-    max_price = max(data['price'])
-    tolerance_ratio = predicted_price / max_price
-
-    # mean absolute error was of 25 L
-    lower_limit = convert_rupees_to_words(predicted_price - tolerance_ratio * 0.125)
-    upper_limit = convert_rupees_to_words(predicted_price + tolerance_ratio * 0.125)
-    st.write(f'You may expect your flat to fall within the range of {lower_limit} to {upper_limit}.')
+        # mean absolute error was of 25 L
+        lower_limit = convert_rupees_to_words(predicted_price - tolerance_ratio * 0.125)
+        upper_limit = convert_rupees_to_words(predicted_price + tolerance_ratio * 0.125)
+        st.write(f'You may expect your flat to fall within the range of {lower_limit} to {upper_limit}.')
