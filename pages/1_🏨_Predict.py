@@ -258,7 +258,8 @@ if st.button('Predict Price'):
             total_num_rooms
         ])
         input_data = pd.DataFrame(input_data.reshape(1, -1), columns=data.columns[:-1])
-        predicted_price = pipe.predict(input_data)[0]
+        transformer = joblib.load('y_transformer.joblib')
+        predicted_price = transformer.inverse_transform(pipe.predict(input_data).reshape(1, -1))[0][0]
         max_price = max(data['price'])
         tolerance_ratio = predicted_price / max_price
 

@@ -8,8 +8,11 @@ custom_css = """
         .appview-container {
             background-color: #F1EAFF;
         }
-        .css-18ni7ap {
+        .st-emotion-cache-18ni7ap {
             background-color: #D0A2F7;
+        }
+        .st-emotion-cache-6qob1r {
+            background-color: #E5D4FF; 
         }
         .stMarkdown h1 {
             text-align: center;
@@ -29,9 +32,6 @@ custom_css = """
         }
         .heading {
             text-align: center;
-        }
-        .css-6qob1r {
-            background-color: #E5D4FF;
         }
     </style>
 """
