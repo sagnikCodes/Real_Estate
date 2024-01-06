@@ -56,6 +56,9 @@ custom_css = """
         .st-bd{
             background-color: #E5D4FF;
         }
+        .st-cx{
+            background-color: #E5D4FF;
+        }
         .css-10trblm {
             margin-top: 20px;
             color: #7743DB; 
@@ -67,7 +70,10 @@ custom_css = """
             cursor: pointer;
         }
         .st-emotion-cache-5rimss p {
-            font-size: 20px;
+            font-size: 18px;
+        }
+        img{
+            height: 150px;
         }
     </style>
 """
@@ -77,7 +83,7 @@ st.markdown(custom_css, unsafe_allow_html=True)
 st.title('Predict the Price of Your Dream Flats Here')
 
 data = pd.read_csv('flat_price_prediction_data.csv')
-
+cleaned_data = pd.read_csv('data_cleaned_v3.csv')
 col1, col2 = st.columns(2)
 
 with col1:
@@ -264,6 +270,41 @@ if st.button('Predict Price'):
         tolerance_ratio = predicted_price / max_price
 
         # mean absolute error was of 25 L
-        lower_limit = convert_rupees_to_words(predicted_price - tolerance_ratio * 0.125)
-        upper_limit = convert_rupees_to_words(predicted_price + tolerance_ratio * 0.125)
-        st.write(f'You may expect your flat to fall within the range of {lower_limit} to {upper_limit}.')
+        lower_limit = convert_rupees_to_words(predicted_price - tolerance_ratio * 0.25)
+        upper_limit = convert_rupees_to_words(predicted_price + tolerance_ratio * 0.25)
+        st.info(f'You may expect your flat to fall within the range of {lower_limit} to {upper_limit}.')
+
+        society_images = joblib.load('./society_image.joblib')
+
+        filtered_societies = cleaned_data[((cleaned_data['price'] > predicted_price - tolerance_ratio * 0.25) & (cleaned_data['price'] < predicted_price + tolerance_ratio * 0.25))].sort_values('price_per_sqft')['society_name'].values.tolist()
+        society_images = {key.lower(): value for key, value in society_images.items()}
+        society_names = []
+
+        i = 0
+
+        societies_found = True
+        while len(society_names) < 3:
+            try:
+                society_name = filtered_societies[i]
+                if society_name in society_images:
+                    society_names.append(society_name)
+                i += 1
+            except IndexError:
+                societies_found = False
+                break
+
+        if not societies_found:
+            st.info('No such societies in such price range!')
+        else:
+            st.write('Following are the societies where you can find your desirable flats in minimum price/sqft :')
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                society_name = society_names[0]
+                st.image(society_images[society_name], caption=society_name.title(), use_column_width=True)
+            with col2:
+                society_name = society_names[1]
+                st.image(society_images[society_name], caption=society_name.title(), use_column_width=True)
+            with col3:
+                society_name = society_names[2]
+                st.image(society_images[society_name], caption=society_name.title(), use_column_width=True)
