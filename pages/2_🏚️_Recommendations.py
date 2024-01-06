@@ -74,9 +74,14 @@ custom_css = """
         }
         img{
             height: 150px;
+            width: 100%;
         }
         .st-ak{
             font-size: 15px;
+        }
+        #curr{
+            height: 200px;
+            width: 50%;
         }
     </style>
 """
@@ -90,6 +95,7 @@ recommendation_type = st.selectbox('Select the type of recommendations you want'
 
 recommendation_data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/recommendation_data.csv')
 society_names = recommendation_data['PropertyName'].tolist()
+society_data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/societies.csv')
 index_ = recommendation_data['PropertyName'].tolist()
 
 
@@ -169,7 +175,7 @@ if recommendation_type == 'Nearby Location Based':
 
                 st.markdown(
                     f'<div style="display: flex; justify-content: center; align-items: center; height: {image_height}px; width: {image_width}">'
-                    f'<img src="{image_url}" alt="{society_name}" style="height:{image_height}px;">'
+                    f'<img id="curr" src="{image_url}" alt="{society_name}" style="height: {image_height}px; width: {image_width};">'
                     f'</div>'
                     f'<p style="text-align: center">{society_name}</p>',
                     unsafe_allow_html=True
@@ -183,29 +189,41 @@ if recommendation_type == 'Nearby Location Based':
                 with col1:
                     society_name = recommendations[0]
                     image_url = society_images[society_name]
-                    st.image(image_url, caption=society_name, use_column_width=True)
+                    redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+                    st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                    st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
                 with col2:
                     society_name = recommendations[1]
                     image_url = society_images[society_name]
-                    st.image(image_url, caption=society_name, use_column_width=True)
+                    redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+                    st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                    st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
                 with col3:
                     society_name = recommendations[2]
                     image_url = society_images[society_name]
-                    st.image(image_url, caption=society_name, use_column_width=True)
+                    redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+                    st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                    st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
 
                 col1, col2, col3 = st.columns(3)
                 with col1:
                     society_name = recommendations[3]
                     image_url = society_images[society_name]
-                    st.image(image_url, caption=society_name, use_column_width=True)
+                    redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+                    st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                    st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
                 with col2:
                     society_name = recommendations[4]
                     image_url = society_images[society_name]
-                    st.image(image_url, caption=society_name, use_column_width=True)
+                    redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+                    st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                    st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
                 with col3:
                     society_name = recommendations[5]
                     image_url = society_images[society_name]
-                    st.image(image_url, caption=society_name, use_column_width=True)
+                    redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+                    st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                    st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
 
 elif recommendation_type == 'Society Name Based':
 
@@ -214,13 +232,14 @@ elif recommendation_type == 'Society Name Based':
         society_images = joblib.load('./society_image.joblib')
 
         image_url = society_images[society_name]
+        redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
 
         image_height = 170
         image_width = 200
 
         st.markdown(
             f'<div style="display: flex; justify-content: center; align-items: center; height: {image_height}px; width: {image_width}">'
-            f'<img src="{image_url}" alt="{society_name}" style="height:{image_height}px;">'
+            f'<img id="curr" src="{image_url}" alt="{society_name}" style="height: {image_height}px; width: {image_width};">'
             f'</div>'
             f'<p style="text-align: center">{society_name}</p>',
             unsafe_allow_html=True
@@ -234,26 +253,38 @@ elif recommendation_type == 'Society Name Based':
         with col1:
             society_name = recommendations[0]
             image_url = society_images[society_name]
-            st.image(image_url, caption=society_name, use_column_width=True)
+            redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
         with col2:
             society_name = recommendations[1]
             image_url = society_images[society_name]
-            st.image(image_url, caption=society_name, use_column_width=True)
+            redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
         with col3:
             society_name = recommendations[2]
             image_url = society_images[society_name]
-            st.image(image_url, caption=society_name, use_column_width=True)
+            redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
 
         col1, col2, col3 = st.columns(3)
         with col1:
             society_name = recommendations[3]
             image_url = society_images[society_name]
-            st.image(image_url, caption=society_name, use_column_width=True)
+            redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
         with col2:
             society_name = recommendations[4]
             image_url = society_images[society_name]
-            st.image(image_url, caption=society_name, use_column_width=True)
+            redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
         with col3:
             society_name = recommendations[5]
             image_url = society_images[society_name]
-            st.image(image_url, caption=society_name, use_column_width=True)
+            redirect_url = society_data[society_data['PropertyName'] == society_name]['Link'].values[0]
+            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
