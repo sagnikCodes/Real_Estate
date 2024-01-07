@@ -296,56 +296,53 @@ if st.button('Predict Price'):
         society_images = joblib.load('C:/Users/hp/Desktop/Real_Estate/flats_data_society_images.joblib')
 
         price_series = flats_data['price'].apply(get_price)
-        filtered_flats = flats_data[((price_series > predicted_price - tolerance_ratio * 0.25) & (price_series < predicted_price + tolerance_ratio * 0.25))].sort_values('area')
-        filtered_societies = [get_society(society_name) for society_name in filtered_flats['society'].tolist()[:3]]
-        filtered_links = filtered_flats['link'].tolist()[:3]
+        filtered_flats = flats_data[((price_series > predicted_price - tolerance_ratio * 0.25) & (price_series < predicted_price + tolerance_ratio * 0.25))].sort_values('area').reset_index(drop=True)
+        filtered_societies = []
+        filtered_links = []
+        societies_taken = []
+        for i in range(filtered_flats.shape[0]):
+            society_name = filtered_flats['society'][i]
+            link = filtered_flats['link'][i]
+            if society_name not in societies_taken:
+                filtered_societies.append(get_society(society_name))
+                filtered_links.append(link)
+                societies_taken.append(society_name)
+                if len(filtered_societies) == 3:
+                    break
 
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            society_name = filtered_societies[0]
-            image_url = society_images[society_name]
-            redirect_url = filtered_links[0]
-            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
-            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
-        with col2:
-            society_name = filtered_societies[1]
-            image_url = society_images[society_name]
-            redirect_url = filtered_links[1]
-            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
-            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
-        with col3:
-            society_name = filtered_societies[2]
-            image_url = society_images[society_name]
-            redirect_url = filtered_links[2]
-            st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
-            st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
-
-        #
-        # i = 0
-        #
-        # societies_found = True
-        # while len(society_names) < 3:
-        #     try:
-        #         society_name = filtered_societies[i]
-        #         if society_name in society_images:
-        #             society_names.append(society_name)
-        #         i += 1
-        #     except IndexError:
-        #         societies_found = False
-        #         break
-        #
-        # if not societies_found:
-        #     st.info('No such societies in such price range!')
-        # else:
-        #     st.write('Following are the societies where you can find your desirable flats in minimum price/sqft :')
-        #     col1, col2, col3 = st.columns(3)
-        #
-        #     with col1:
-        #         society_name = society_names[0]
-        #         st.image(society_images[society_name], caption=society_name.title(), use_column_width=True)
-        #     with col2:
-        #         society_name = society_names[1]
-        #         st.image(society_images[society_name], caption=society_name.title(), use_column_width=True)
-        #     with col3:
-        #         society_name = society_names[2]
-        #         st.image(society_images[society_name], caption=society_name.title(), use_column_width=True)
+        if filtered_flats.shape[0] < 2:
+            st.warning('There are no such flats in such price range')
+        elif filtered_flats.shape[0] == 2:
+            col1, col2 = st.columns(2)
+            with col1:
+                society_name = filtered_societies[0]
+                image_url = society_images[society_name]
+                redirect_url = filtered_links[0]
+                st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
+            with col2:
+                society_name = filtered_societies[1]
+                image_url = society_images[society_name]
+                redirect_url = filtered_links[1]
+                st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
+        elif filtered_flats.shape[0] > 2:
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                society_name = filtered_societies[0]
+                image_url = society_images[society_name]
+                redirect_url = filtered_links[0]
+                st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
+            with col2:
+                society_name = filtered_societies[1]
+                image_url = society_images[society_name]
+                redirect_url = filtered_links[1]
+                st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
+            with col3:
+                society_name = filtered_societies[2]
+                image_url = society_images[society_name]
+                redirect_url = filtered_links[2]
+                st.markdown(f"[![Clickable Image]({image_url})]({redirect_url})", unsafe_allow_html=True)
+                st.markdown(f'<p style="text-align: center">{society_name}</p>', unsafe_allow_html=True)
