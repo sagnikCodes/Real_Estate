@@ -149,7 +149,7 @@ def get_societies(nearby_location, radius_):
 
 
 if recommendation_type == 'Nearby Location Based':
-    unique_locations = joblib.load('./unique_locations.joblib')
+    unique_locations = [location.title() for location in joblib.load('./unique_locations.joblib')]
     col1, col2 = st.columns(2)
 
     with col1:
@@ -158,7 +158,7 @@ if recommendation_type == 'Nearby Location Based':
         radius = st.number_input('Select radius(in Km)')
 
     if location != 'Choose Location' and radius != 0:
-        societies = get_societies(location, radius)
+        societies = get_societies(location.lower(), radius)
 
         if len(societies) == 0:
             st.info(f'None of the societies are available at a distance of {radius} Km from {location.title()}')
