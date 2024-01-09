@@ -83,8 +83,8 @@ st.markdown(custom_css, unsafe_allow_html=True)
 
 st.title('Predict the Price of Your Dream Flats Here')
 
-data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/flat_price_prediction_data.csv')
-flats_data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/flats.csv')
+data = pd.read_csv('./flat_price_prediction_data.csv')
+flats_data = pd.read_csv('./flats.csv')
 col1, col2 = st.columns(2)
 
 with col1:
@@ -283,7 +283,7 @@ if st.button('Predict Price'):
             total_num_rooms
         ])
         input_data = pd.DataFrame(input_data.reshape(1, -1), columns=data.columns[:-1])
-        transformer = joblib.load('y_transformer.joblib')
+        transformer = joblib.load('./y_transformer.joblib')
         predicted_price = transformer.inverse_transform(pipe.predict(input_data).reshape(1, -1))[0][0]
         max_price = max(data['price'])
         tolerance_ratio = predicted_price / max_price
@@ -293,7 +293,7 @@ if st.button('Predict Price'):
         upper_limit = convert_rupees_to_words(predicted_price + tolerance_ratio * 0.25)
         st.info(f'You may expect your flat to fall within the range of {lower_limit} to {upper_limit}.')
 
-        society_images = joblib.load('C:/Users/hp/Desktop/Real_Estate/flats_data_society_images.joblib')
+        society_images = joblib.load('./flats_data_society_images.joblib')
 
         price_series = flats_data['price'].apply(get_price)
         filtered_flats = flats_data[((price_series > predicted_price - tolerance_ratio * 0.25) & (price_series < predicted_price + tolerance_ratio * 0.25))].sort_values('area').reset_index(drop=True)

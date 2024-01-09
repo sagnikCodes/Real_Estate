@@ -91,8 +91,8 @@ st.markdown(custom_css, unsafe_allow_html=True)
 
 st.title('Visualize and gain insights!')
 
-sector_data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/sector_data.csv')
-data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/cleaned_data_v2.csv')
+sector_data = pd.read_csv('./sector_data.csv')
+data = pd.read_csv('./cleaned_data_v2.csv')
 
 # Plot1 Sectors vs Price/Square Feet
 st.write('Sectors v/s Price Per Sqft')
@@ -117,7 +117,7 @@ st.plotly_chart(fig)
 
 # Plot2 Feature WordCloud
 st.write('Feature WordCloud')
-wordcloud = joblib.load('C:/Users/hp/Desktop/Real_Estate/wordcloud.joblib')
+wordcloud = joblib.load('./wordcloud.joblib')
 
 # Display Word Cloud using Matplotlib
 plt.imshow(wordcloud)

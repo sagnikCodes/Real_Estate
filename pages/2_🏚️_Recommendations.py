@@ -93,9 +93,9 @@ st.title('Society Recommender')
 recommendation_type = st.selectbox('Select the type of recommendations you want', ['Choose recommendation type', 'Society Name Based', 'Nearby Location Based'])
 
 
-recommendation_data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/recommendation_data.csv')
+recommendation_data = pd.read_csv('./recommendation_data.csv')
 society_names = recommendation_data['PropertyName'].tolist()
-society_data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/societies.csv')
+society_data = pd.read_csv('./societies.csv')
 index_ = recommendation_data['PropertyName'].tolist()
 
 
