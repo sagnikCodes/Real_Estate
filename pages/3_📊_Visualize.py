@@ -115,16 +115,6 @@ fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
 st.plotly_chart(fig)
 
 
-# Plot2 Feature WordCloud
-st.write('Feature WordCloud')
-wordcloud = joblib.load('./wordcloud.joblib')
-
-# Display Word Cloud using Matplotlib
-plt.imshow(wordcloud)
-plt.axis('off')  # Turn off axis labels
-st.pyplot(plt)  # Display the plot in Streamlit
-
-
 # Plot3 Area v/s Price
 st.write('Area v/s Price')
 fig = px.scatter(data, x='super_built_up_area', y='price', color='num_bedrooms',
