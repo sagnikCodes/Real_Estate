@@ -86,6 +86,7 @@ custom_css = """
 st.markdown(custom_css, unsafe_allow_html=True)
 
 st.title('Instructions')
+st.write('Disclaimer: The information provided on this website pertains specifically to flats and apartments in Gurgaon and may not accurately reflect property prices in other cities.')
 
 st.header('This webapp has 4 modules')
 
