@@ -22,7 +22,7 @@ custom_css = """
         }
         .stMarkdown h1 {
             text-align: center;
-            font-size: 38px;
+            font-size: 60px;
             color: #7743DB;  
             margin-bottom: 20px;
         }
@@ -81,7 +81,9 @@ custom_css = """
 
 st.markdown(custom_css, unsafe_allow_html=True)
 
-st.title('Predict the Price of Your Dream Flats Here')
+st.title('Predict')
+
+st.write('Enter the feature details and get to know the best price for a flat with the provided features!')
 
 data = pd.read_csv('./flat_price_prediction_data.csv')
 flats_data = pd.read_csv('./flats.csv')

@@ -22,7 +22,7 @@ custom_css = """
         }
         .stMarkdown h1 {
             text-align: center;
-            font-size: 38px;
+            font-size: 60px;
             color: #7743DB;  
             margin-bottom: 20px;
         }

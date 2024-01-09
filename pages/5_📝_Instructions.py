@@ -1,7 +1,9 @@
 import streamlit as st
 
-st.set_page_config(page_title="Streamline Estates")
-
+st.set_page_config(
+    page_title="Instructions",
+    page_icon="📝"
+)
 
 custom_css = """
     <style>
@@ -83,22 +85,46 @@ custom_css = """
 
 st.markdown(custom_css, unsafe_allow_html=True)
 
-st.title('Streamline Estates')
+st.title('Instructions')
 
-# Create a rounded box for the content
-st.markdown("""
-<div class="box center">
-<p>
-    Here we redefine your real estate experience with a suite of innovative features. Our platform offers 
-    a unique flat price prediction mechanism that leverages key features to 
-    provide accurate estimations. The Insights module delivers valuable 
-    information on diverse property features, empowering users with comprehensive 
-    knowledge to make informed decisions. Immerse yourself in our Visualization module, 
-    allowing you to vividly explore and understand different property aspects. 
-    Additionally, our platform goes beyond by providing personalized 
-    recommendations for various societies, ensuring you find the perfect match for your needs. 
-    At Streamline Estates, we're committed to simplifying your real estate journey through 
-    cutting-edge technology and insightful solutions.
-</p>
-</div>
-""", unsafe_allow_html=True)
+st.header('This webapp has 4 modules')
+
+st.subheader('Module1: Predict')
+st.write("""
+If you provide accurate and relevant input features for predicting 
+the price of a house, the model can generate a more reliable output. 
+Ensuring that the features are correct and representative of the property's 
+characteristics will contribute to a more accurate prediction.
+Once the prices are predicted, societies having flats in those price ranges
+at minimum price per unit area is recommended to the user.
+""")
+
+
+st.subheader('Module2: Recommendations')
+st.write("""
+There are two types of recommendations based upon preferences of user.
+User may choose his/her favourite society name(Society Name Based) and the underlying model
+will recommend the user with 6 similar such societies.
+
+The Nearby Location based recommendations are useful if one wants a society in the vicinity
+of a particular location(like 10 km from Airport etc.)
+
+Note: Similarity is based on location of that society, how costly that society is and some other
+details about the societies.
+""")
+
+
+st.subheader('Module3: Visualize')
+st.write("""
+Several visual plots like how much the flats in each sectors costs on an average, how prices vary
+with different features and combination of features are being mentioned here. The user can gain
+deep insights about how prices of flats vary with changing features.
+""")
+
+
+st.subheader('Module4: Insights')
+st.write("""
+This module enables user to gain exact numerical insights about how much price will
+vary if one of the features are changed keeping rest of them as constant. This is based on 
+an inference model.
+""")

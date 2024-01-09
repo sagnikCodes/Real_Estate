@@ -23,7 +23,7 @@ custom_css = """
         }
         .stMarkdown h1 {
             text-align: center;
-            font-size: 38px;
+            font-size: 60px;
             color: #7743DB;  
             margin-bottom: 20px;
         }
@@ -89,7 +89,7 @@ custom_css = """
 
 st.markdown(custom_css, unsafe_allow_html=True)
 
-st.title('Visualize and gain insights!')
+st.title('Visualize!')
 
 sector_data = pd.read_csv('./sector_data.csv')
 data = pd.read_csv('./cleaned_data_v2.csv')
@@ -113,16 +113,6 @@ fig.update_layout(mapbox_style="open-street-map")
 fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
 
 st.plotly_chart(fig)
-
-
-# Plot2 Feature WordCloud
-st.write('Feature WordCloud')
-wordcloud = joblib.load('./wordcloud.joblib')
-
-# Display Word Cloud using Matplotlib
-plt.imshow(wordcloud)
-plt.axis('off')  # Turn off axis labels
-st.pyplot(plt)  # Display the plot in Streamlit
 
 
 # Plot3 Area v/s Price
