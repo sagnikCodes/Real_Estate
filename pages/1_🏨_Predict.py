@@ -83,8 +83,8 @@ st.markdown(custom_css, unsafe_allow_html=True)
 
 st.title('Predict the Price of Your Dream Flats Here')
 
-data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/flat_price_prediction_data.csv')
-flats_data = pd.read_csv('C:/Users/hp/Desktop/Real_Estate/flats.csv')
+data = pd.read_csv('./flat_price_prediction_data.csv')
+flats_data = pd.read_csv('./flats.csv')
 col1, col2 = st.columns(2)
 
 with col1:
