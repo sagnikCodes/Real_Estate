@@ -123,7 +123,7 @@ if initial_price != 0:
     coefficient_floor_number = 0.062142
     new_price_floor_number = convert_rupees_to_words(initial_price + floor_number * coefficient_floor_number)
     if floor_number != 0:
-        st.write(f'The same flat will cost you at {floor_number}')
+        st.write(f'The same flat will cost you at {new_price_floor_number}')
 
     st.subheader('Air Conditioner')
     ac = st.slider('How many more ACs do you want', 0, 20, 0)
